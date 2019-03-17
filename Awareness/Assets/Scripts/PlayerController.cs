@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+	#region SerializedFields
 	[SerializeField]
 	private float accelerationForce = 5;
 
@@ -27,11 +28,18 @@ public class PlayerController : MonoBehaviour
 
 	[SerializeField]
 	private PhysicsMaterial2D playerMovingPhysicsMaterial, playerStoppingPhysicsMaterial;
+	#endregion
 
+	private AudioSource audioSource;
 	private float horizontalInput;
 	private bool isOnGround;
 
 	private Collider2D[] groundHitDetectionResults = new Collider2D[16];
+
+	private void Start()
+	{
+		audioSource = GetComponent<AudioSource>();
+	}
 
 	private void Update()
 	{
@@ -75,6 +83,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (Input.GetButtonDown("Jump") && isOnGround)
 		{
+			audioSource.Play();
 			rb2d.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 		}
 	}
